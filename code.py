@@ -1,8 +1,3 @@
-"""
-Job scraper for https://realpython.github.io/fake-jobs/
-Extracts: job title, company name, location, and detail page URL.
-Results are saved to jobs.csv in the same directory as this script.
-"""
 
 import csv
 import requests
@@ -14,7 +9,6 @@ CSV_HEADERS = ["title", "company", "location", "url"]
 
 
 def fetch_page(url: str) -> BeautifulSoup | None:
-    """Fetch a URL and return a BeautifulSoup object, or None on failure."""
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
@@ -25,7 +19,6 @@ def fetch_page(url: str) -> BeautifulSoup | None:
 
 
 def extract_jobs(soup: BeautifulSoup) -> list[dict]:
-    """Parse all job cards from the page and return a list of job dicts."""
     jobs = []
 
     job_cards = soup.select("div.card")
@@ -54,7 +47,6 @@ def extract_jobs(soup: BeautifulSoup) -> list[dict]:
 
 
 def save_to_csv(jobs: list[dict], filepath: str) -> None:
-    """Write a list of job dicts to a CSV file."""
     with open(filepath, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=CSV_HEADERS)
         writer.writeheader()
